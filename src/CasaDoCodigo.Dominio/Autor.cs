@@ -10,11 +10,23 @@ namespace CasaDoCodigo.Dominio
 
         public string Descricao { get; private set; }
 
-        public Autor(string nome, string email, string descricao)
+        private Autor(Guid id, string nome, string email, string descricao) : base()
         {
+            Id = id;
             Nome = nome;
             Email = email;
             Descricao = descricao;
         }
+
+        public static Autor Criar(string nome, string email, string descricao)
+        {
+            return new Autor(Guid.NewGuid(), nome, email, descricao);
+        }
+
+        public static Autor Restaurar(Guid id, string nome, string email, string descricao)
+        {
+            return new Autor(id, nome, email, descricao);
+        }
+
     }
 }

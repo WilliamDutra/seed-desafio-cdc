@@ -4,14 +4,14 @@ namespace CasaDoCodigo.Dominio
 {
     public abstract class Entidade
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; protected set; }
 
         public DateTime CriadoEm { get; private set; }
 
         public Entidade()
         {
             CriadoEm = DateTime.Now;
-            Id = new Guid();
+            Id = Guid.NewGuid();
         }
     }
 }

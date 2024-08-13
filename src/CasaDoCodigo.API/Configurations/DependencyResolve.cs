@@ -17,5 +17,13 @@ namespace CasaDoCodigo.API.Configurations
             services.AddScoped<IAutorRepositorio, AutorRepositorio>();
             return services;
         }
+
+        public static IServiceCollection AddContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionStrings = configuration.GetConnectionString("Default");
+            services.AddScoped<CasaDoCodigoContext>((db) => new CasaDoCodigoContext(connectionStrings));
+            return services;
+        }
+
     }
 }

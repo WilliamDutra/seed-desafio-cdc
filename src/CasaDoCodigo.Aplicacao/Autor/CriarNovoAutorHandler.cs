@@ -22,7 +22,12 @@ namespace CasaDoCodigo.Aplicacao.Autor
                 if (!erros.IsValid)
                     return new CommandResult(false, string.Join(",", erros.Errors.Select(x=> x.ErrorMessage)));
 
-                var autor = new Dominio.Autor(command.Nome, command.Email, command.Descricao);
+                var autorExistente = _autorRepositorio.ObterPorEmail(command.Email);
+
+                if (autorExistente != null)
+                    return new CommandResult(false, "e-mail duplicado no sistema!");
+
+                var autor = Dominio.Autor.Criar(command.Nome, command.Email, command.Descricao);
                 _autorRepositorio.Salvar(autor);
 
                 return new CommandResult(true, "autor criado com sucesso!");

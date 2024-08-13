@@ -31,7 +31,7 @@ namespace CasaDoCodigo.Aplicacao.Autor
 
         private bool ValidaEmail(string arg)
         {
-            return !arg.Contains("@");
+            return arg.Contains("@");
         }
     }
 }

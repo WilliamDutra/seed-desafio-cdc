@@ -13,6 +13,7 @@ namespace CasaDoCodigo.API
             builder.Services.AddControllers();
             builder.Services.AddRepositorios();
             builder.Services.AddHandlers();
+            builder.Services.AddContext(builder.Configuration);
 
             var app = builder.Build();
 
