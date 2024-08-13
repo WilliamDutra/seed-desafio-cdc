@@ -1,6 +1,6 @@
-﻿using CasaDoCodigo.Dominio;
-using Npgsql;
+﻿using Npgsql;
 using System.Data;
+using CasaDoCodigo.Dominio;
 
 namespace CasaDoCodigo.Data
 {
@@ -11,6 +11,38 @@ namespace CasaDoCodigo.Data
         public AutorRepositorio(CasaDoCodigoContext dbContext)
         {
             _DbContext = dbContext;
+        }
+
+        public Categoria? ObterCategoriaPorNome(string categoria)
+        {
+            Categoria? cat = null;
+
+            string select = @"select 
+	                            id, 
+	                            nome, 
+	                            descricao 
+                            from 
+	                            categoria where nome = @nome";
+
+            var command = new NpgsqlCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = select;
+            command.Parameters.Add(new NpgsqlParameter("@nome", categoria));
+            command.Connection = _DbContext.Conexao;
+
+            using (var reader = command.ExecuteReader())
+            {
+
+                while (reader.Read())
+                {
+                    Guid id = Guid.Parse(reader["id"].ToString());
+                    string nome = reader["nome"].ToString();
+                    string descricao = reader["descricao"].ToString();
+                    cat = Categoria.Restaurar(id, nome, descricao);
+                }
+            }
+
+            return cat;
         }
 
         public Autor? ObterPorEmail(string email)
@@ -76,6 +108,35 @@ namespace CasaDoCodigo.Data
                 command.Parameters.Add(new NpgsqlParameter("@descricao", autor.Descricao));
                 command.ExecuteNonQuery();
             }
+        }
+    
+        public void Salvar(Categoria categoria)
+        {
+            string insert = @"insert into categoria
+                            (
+	                            id,
+	                            nome,
+	                            descricao
+                            )
+                            values
+                            (
+	                            @id,
+	                            @nome,
+	                            @descricao
+                            );";
+
+
+            using (var command = new NpgsqlCommand())
+            {
+                command.CommandType = CommandType.Text;
+                command.CommandText = insert;
+                command.Connection = _DbContext.Conexao;
+                command.Parameters.Add(new NpgsqlParameter("@id", categoria.Id));
+                command.Parameters.Add(new NpgsqlParameter("@nome", categoria.Nome));
+                command.Parameters.Add(new NpgsqlParameter("@descricao", categoria.Descricao));
+                command.ExecuteNonQuery();
+            }
+
         }
     }
 }

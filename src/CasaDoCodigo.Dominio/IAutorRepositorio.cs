@@ -7,5 +7,9 @@ namespace CasaDoCodigo.Dominio
         void Salvar(Autor autor);
 
         Autor? ObterPorEmail(string email);
+
+        void Salvar(Categoria categoria);
+
+        Categoria? ObterCategoriaPorNome(string nome);
     }
 }

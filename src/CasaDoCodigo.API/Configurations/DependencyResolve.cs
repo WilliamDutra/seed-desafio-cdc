@@ -1,6 +1,7 @@
 ﻿using CasaDoCodigo.Dominio;
 using CasaDoCodigo.Aplicacao.Autor;
 using CasaDoCodigo.Data;
+using CasaDoCodigo.Aplicacao.Categoria;
 
 namespace CasaDoCodigo.API.Configurations
 {
@@ -9,6 +10,7 @@ namespace CasaDoCodigo.API.Configurations
         public static IServiceCollection AddHandlers(this IServiceCollection services)
         {
             services.AddScoped<CriarNovoAutorHandler>();
+            services.AddScoped<CriarCategoriaHandler>();
             return services;
         }
 
