@@ -9,9 +9,12 @@ namespace CasaDoCodigo.API.Controllers
     {
         private CriarLivroHandler _criarLivroHandler;
 
-        public LivroController(CriarLivroHandler criarLivroHandler)
+        private ObterTodosOsLivrosHandler _obterTodosOsLivrosHandler;
+
+        public LivroController(CriarLivroHandler criarLivroHandler, ObterTodosOsLivrosHandler obterTodosOsLivrosHandler)
         {
             _criarLivroHandler = criarLivroHandler;
+            _obterTodosOsLivrosHandler = obterTodosOsLivrosHandler;
         }
 
         [HttpPost]
@@ -22,5 +25,13 @@ namespace CasaDoCodigo.API.Controllers
                 return BadRequest(resultado);
             return Ok(resultado);
         }
+
+        [HttpGet]
+        public IActionResult Listar(ObterTodosOsLivrosQuery queries)
+        {
+            var livros = _obterTodosOsLivrosHandler.Handle(queries);
+            return Ok(livros);
+        }
+
     }
 }

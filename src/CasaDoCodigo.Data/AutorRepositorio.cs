@@ -55,6 +55,7 @@ namespace CasaDoCodigo.Data
 	                                isbn,
 	                                titulo,
 	                                resumo,
+                                    preco,
 	                                sumario,
 	                                numero_paginas,
 	                                data_publicacao,
@@ -78,7 +79,7 @@ namespace CasaDoCodigo.Data
                     string isbn = reader["isbn"].ToString();
                     string titulo = reader["titulo"].ToString();
                     string resumo = reader["resumo"].ToString();
-                    string suamario = reader["suamrio"].ToString();
+                    string suamario = reader["sumario"].ToString();
                     int numeroPaginas = Convert.ToInt32(reader["numero_paginas"].ToString());
                     decimal preco = decimal.Parse(reader["preco"].ToString());
                     DateTime dataPublicacao = DateTime.Parse(reader["data_publicacao"].ToString());
@@ -125,6 +126,53 @@ namespace CasaDoCodigo.Data
             }
 
             return autor;
+        }
+
+        public List<Livro> ObterTodosOsLivros()
+        {
+            List<Livro> livros = new List<Livro>();
+
+            string select = @"
+                                SELECT 
+                                     id,
+	                                isbn,
+	                                titulo,
+	                                resumo,
+	                                sumario,
+                                    preco,
+	                                numero_paginas,
+	                                data_publicacao,
+	                                categoria_id,
+	                                autor_id
+                                FROM
+                                    livro";
+
+            var command = new NpgsqlCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = select;
+            command.Connection = _DbContext.Conexao;
+
+            using (var reader = command.ExecuteReader())
+            {
+
+                while (reader.Read())
+                {
+                    Guid id = Guid.Parse(reader["id"].ToString());
+                    string isbn = reader["isbn"].ToString();
+                    string titulo = reader["titulo"].ToString();
+                    string resumo = reader["resumo"].ToString();
+                    string suamario = reader["sumario"].ToString();
+                    int numeroPaginas = Convert.ToInt32(reader["numero_paginas"].ToString());
+                    decimal preco = decimal.Parse(reader["preco"].ToString());
+                    DateTime dataPublicacao = DateTime.Parse(reader["data_publicacao"].ToString());
+                    Guid categoriaId = Guid.Parse(reader["categoria_id"].ToString());
+                    Guid autorId = Guid.Parse(reader["autor_id"].ToString());
+
+                    livros.Add(Livro.Restaurar(id, isbn, titulo, resumo, suamario, preco, numeroPaginas, dataPublicacao, categoriaId, autorId));
+                }
+            }
+
+            return livros;
         }
 
         public void Salvar(Autor autor)

@@ -17,5 +17,7 @@ namespace CasaDoCodigo.Dominio
 
         List<Livro> ObterLivroPorNome(string nome);
 
+        List<Livro> ObterTodosOsLivros();
+
     }
 }

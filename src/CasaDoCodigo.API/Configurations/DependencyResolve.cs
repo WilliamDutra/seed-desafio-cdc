@@ -13,6 +13,7 @@ namespace CasaDoCodigo.API.Configurations
             services.AddScoped<CriarNovoAutorHandler>();
             services.AddScoped<CriarCategoriaHandler>();
             services.AddScoped<CriarLivroHandler>();
+            services.AddScoped<ObterTodosOsLivrosHandler>();
             return services;
         }
 
