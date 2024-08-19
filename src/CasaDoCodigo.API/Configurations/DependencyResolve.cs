@@ -14,6 +14,7 @@ namespace CasaDoCodigo.API.Configurations
             services.AddScoped<CriarCategoriaHandler>();
             services.AddScoped<CriarLivroHandler>();
             services.AddScoped<ObterTodosOsLivrosHandler>();
+            services.AddScoped<ObterLivroPorIdHandler>();
             return services;
         }
 

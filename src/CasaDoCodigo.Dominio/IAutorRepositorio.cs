@@ -19,5 +19,7 @@ namespace CasaDoCodigo.Dominio
 
         List<Livro> ObterTodosOsLivros();
 
+        Livro? ObterLivroPorId(Guid id);
+
     }
 }

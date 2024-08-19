@@ -11,10 +11,13 @@ namespace CasaDoCodigo.API.Controllers
 
         private ObterTodosOsLivrosHandler _obterTodosOsLivrosHandler;
 
-        public LivroController(CriarLivroHandler criarLivroHandler, ObterTodosOsLivrosHandler obterTodosOsLivrosHandler)
+        private ObterLivroPorIdHandler _obterLivroPorIdHandler;
+
+        public LivroController(CriarLivroHandler criarLivroHandler, ObterTodosOsLivrosHandler obterTodosOsLivrosHandler, ObterLivroPorIdHandler obterLivroPorIdHandler)
         {
             _criarLivroHandler = criarLivroHandler;
             _obterTodosOsLivrosHandler = obterTodosOsLivrosHandler;
+            _obterLivroPorIdHandler = obterLivroPorIdHandler;
         }
 
         [HttpPost]
@@ -30,6 +33,18 @@ namespace CasaDoCodigo.API.Controllers
         public IActionResult Listar(ObterTodosOsLivrosQuery queries)
         {
             var livros = _obterTodosOsLivrosHandler.Handle(queries);
+            return Ok(livros);
+        }
+
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult ListarPorId(Guid id)
+        {
+            var queries = new ObterLivroPorIdQuery { Id = id };
+            var livros = _obterLivroPorIdHandler.Handle(queries);
+            if (livros == null)
+                return Forbid();
             return Ok(livros);
         }
 
