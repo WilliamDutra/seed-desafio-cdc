@@ -23,5 +23,6 @@ create table livro
 	numero_paginas int not null,
 	data_publicacao date,
 	categoria_id varchar(150) not null,
-	autor_id varchar(150) not null
+	autor_id varchar(150) not null,
+	preco money not null
 );
