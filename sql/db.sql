@@ -26,3 +26,19 @@ create table livro
 	autor_id varchar(150) not null,
 	preco money not null
 );
+
+
+create table pais
+(
+	id varchar(150) primary key,
+	nome varchar(100) not null,
+	sigla varchar(10) not null
+);
+
+create table estado
+(
+	id varchar(150) primary key,
+	nome varchar(100) not null,
+	sigla varchar(10) not null,
+	pais_id varchar(150) not null
+);
