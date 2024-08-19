@@ -142,6 +142,39 @@ namespace CasaDoCodigo.Data
 
         }
 
+        public Pais? ObterPaisPorId(Guid id)
+        {
+            Pais? pais = null;
+
+            string select = @"
+                                SELECT 
+                                     id,
+	                                 nome,
+                                     sigla
+                                FROM
+                                    pais WHERE id = @id";
+
+            var command = new NpgsqlCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = select;
+            command.Parameters.Add(new NpgsqlParameter("@id", id.ToString()));
+            command.Connection = _DbContext.Conexao;
+
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Guid idPais = Guid.Parse(reader["id"].ToString());
+                    string nome = reader["nome"].ToString();
+                    string sigla = reader["sigla"].ToString();                  
+                    pais = Pais.Restaurar(idPais, nome, sigla);
+                }
+            }
+
+            return pais;
+
+        }
+
         public Autor? ObterPorEmail(string email)
         {
             Autor? autor = null;

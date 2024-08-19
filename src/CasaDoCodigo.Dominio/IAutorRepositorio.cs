@@ -27,5 +27,6 @@ namespace CasaDoCodigo.Dominio
 
         Pais? ObterPaisPorNome(string nome);
 
+        Pais? ObterPaisPorId(Guid id);
     }
 }
