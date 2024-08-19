@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CasaDoCodigo.Dominio
 {
@@ -11,5 +12,10 @@ namespace CasaDoCodigo.Dominio
         void Salvar(Categoria categoria);
 
         Categoria? ObterCategoriaPorNome(string nome);
+
+        void Salvar(Livro livro);
+
+        List<Livro> ObterLivroPorNome(string nome);
+
     }
 }

@@ -45,6 +45,54 @@ namespace CasaDoCodigo.Data
             return cat;
         }
 
+        public List<Livro> ObterLivroPorNome(string nome)
+        {
+            List<Livro> livros = new List<Livro>();
+
+            string select = @"
+                                SELECT 
+                                     id,
+	                                isbn,
+	                                titulo,
+	                                resumo,
+	                                sumario,
+	                                numero_paginas,
+	                                data_publicacao,
+	                                categoria_id,
+	                                autor_id
+                                FROM
+                                    livro WHERE titulo = @titulo";
+
+            var command = new NpgsqlCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = select;
+            command.Parameters.Add(new NpgsqlParameter("@titulo", nome));
+            command.Connection = _DbContext.Conexao;
+
+            using (var reader = command.ExecuteReader())
+            {
+
+                while (reader.Read())
+                {
+                    Guid id = Guid.Parse(reader["id"].ToString());
+                    string isbn = reader["isbn"].ToString();
+                    string titulo = reader["titulo"].ToString();
+                    string resumo = reader["resumo"].ToString();
+                    string suamario = reader["suamrio"].ToString();
+                    int numeroPaginas = Convert.ToInt32(reader["numero_paginas"].ToString());
+                    decimal preco = decimal.Parse(reader["preco"].ToString());
+                    DateTime dataPublicacao = DateTime.Parse(reader["data_publicacao"].ToString());
+                    Guid categoriaId = Guid.Parse(reader["categoria_id"].ToString());
+                    Guid autorId = Guid.Parse(reader["autor_id"].ToString());
+
+                    livros.Add(Livro.Restaurar(id, isbn, titulo, resumo, suamario, preco, numeroPaginas, dataPublicacao, categoriaId, autorId));
+                }
+            }
+
+            return livros;
+
+        }
+
         public Autor? ObterPorEmail(string email)
         {
             Autor? autor = null;
@@ -134,6 +182,53 @@ namespace CasaDoCodigo.Data
                 command.Parameters.Add(new NpgsqlParameter("@id", categoria.Id));
                 command.Parameters.Add(new NpgsqlParameter("@nome", categoria.Nome));
                 command.Parameters.Add(new NpgsqlParameter("@descricao", categoria.Descricao));
+                command.ExecuteNonQuery();
+            }
+
+        }
+
+        public void Salvar(Livro livro)
+        {
+            string insert = @"INSERT INTO livro
+                            (
+	                            id,
+	                            isbn,
+	                            titulo,
+	                            resumo,
+	                            sumario,
+	                            numero_paginas,
+	                            data_publicacao,
+	                            categoria_id,
+	                            autor_id
+                            )
+                            VALUES
+                            (
+	                            @id,
+	                            @isbn,
+	                            @titulo,
+                                @resumo,
+	                            @sumario,
+	                            @numero_paginas,
+	                            @data_publicacao,
+	                            @categoria_id,
+	                            @autor_id
+                            );";
+
+
+            using (var command = new NpgsqlCommand())
+            {
+                command.CommandType = CommandType.Text;
+                command.CommandText = insert;
+                command.Connection = _DbContext.Conexao;
+                command.Parameters.Add(new NpgsqlParameter("@id", livro.Id));
+                command.Parameters.Add(new NpgsqlParameter("@titulo", livro.Titulo));
+                command.Parameters.Add(new NpgsqlParameter("@isbn", livro.Isbn));
+                command.Parameters.Add(new NpgsqlParameter("@resumo", livro.Resumo));
+                command.Parameters.Add(new NpgsqlParameter("@sumario", livro.Sumario));
+                command.Parameters.Add(new NpgsqlParameter("@numero_paginas", livro.NumeroDePaginas));
+                command.Parameters.Add(new NpgsqlParameter("@data_publicacao", livro.DataPublicacao));
+                command.Parameters.Add(new NpgsqlParameter("@categoria_id", livro.CategoriaId));
+                command.Parameters.Add(new NpgsqlParameter("@autor_id", livro.AutorId));
                 command.ExecuteNonQuery();
             }
 
