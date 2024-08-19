@@ -1,5 +1,6 @@
 ﻿using CasaDoCodigo.Data;
 using CasaDoCodigo.Dominio;
+using CasaDoCodigo.Aplicacao.Pais;
 using CasaDoCodigo.Aplicacao.Livro;
 using CasaDoCodigo.Aplicacao.Autor;
 using CasaDoCodigo.Aplicacao.Categoria;
@@ -13,6 +14,7 @@ namespace CasaDoCodigo.API.Configurations
             services.AddScoped<CriarNovoAutorHandler>();
             services.AddScoped<CriarCategoriaHandler>();
             services.AddScoped<CriarLivroHandler>();
+            services.AddScoped<CriarPaisHandler>();
             services.AddScoped<ObterTodosOsLivrosHandler>();
             services.AddScoped<ObterLivroPorIdHandler>();
             return services;

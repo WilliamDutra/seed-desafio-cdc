@@ -21,5 +21,11 @@ namespace CasaDoCodigo.Dominio
 
         Livro? ObterLivroPorId(Guid id);
 
+        void Salvar(Estado estado);
+
+        void Salvar(Pais pais);
+
+        Pais? ObterPaisPorNome(string nome);
+
     }
 }

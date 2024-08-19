@@ -332,5 +332,99 @@ namespace CasaDoCodigo.Data
             }
 
         }
+
+        public void Salvar(Estado estado)
+        {
+            string insert = @"INSERT INTO estado
+                            (
+	                            id,
+	                            nome,
+	                            sigla,
+                                pais_id
+                            )
+                            VALUES
+                            (
+	                            @id,
+	                            @nome,
+	                            @sigla,
+                                @pais_id
+                            );";
+
+
+            using (var command = new NpgsqlCommand())
+            {
+                command.CommandType = CommandType.Text;
+                command.CommandText = insert;
+                command.Connection = _DbContext.Conexao;
+                command.Parameters.Add(new NpgsqlParameter("@id", estado.Id));
+                command.Parameters.Add(new NpgsqlParameter("@sigla", estado.Sigla));
+                command.Parameters.Add(new NpgsqlParameter("@nome", estado.Nome));
+                command.Parameters.Add(new NpgsqlParameter("@pais_id", estado.PaisId));
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public void Salvar(Pais pais)
+        {
+            string insert = @"INSERT INTO pais
+                            (
+	                            id,
+	                            nome,
+	                            sigla
+                            )
+                            VALUES
+                            (
+	                            @id,
+	                            @nome,
+	                            @sigla
+                            );";
+
+
+            using (var command = new NpgsqlCommand())
+            {
+                command.CommandType = CommandType.Text;
+                command.CommandText = insert;
+                command.Connection = _DbContext.Conexao;
+                command.Parameters.Add(new NpgsqlParameter("@id", pais.Id));
+                command.Parameters.Add(new NpgsqlParameter("@sigla", pais.Sigla));
+                command.Parameters.Add(new NpgsqlParameter("@nome", pais.Nome));
+                command.ExecuteNonQuery();
+            }
+
+        }
+
+        public Pais? ObterPaisPorNome(string nome)
+        {
+            Pais? pais = null;
+
+            string select = @"SELECT
+	                            id,
+	                            nome,
+	                            sigla
+                            FROM
+	                            pais
+                            WHERE nome = @nome";
+
+            var command = new NpgsqlCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = select;
+            command.Parameters.Add(new NpgsqlParameter("@nome", nome));
+            command.Connection = _DbContext.Conexao;
+
+            using (var reader = command.ExecuteReader())
+            {
+
+                while (reader.Read())
+                {
+                    Guid id = Guid.Parse(reader["id"].ToString());
+                    string nomePais = reader["nome"].ToString();
+                    string sigla = reader["sigla"].ToString();                    
+                    pais = Pais.Restaurar(id, nome, sigla);
+                }
+            }
+
+            return pais;
+
+        }
     }
 }
