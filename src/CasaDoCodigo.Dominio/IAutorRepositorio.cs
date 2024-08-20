@@ -28,5 +28,10 @@ namespace CasaDoCodigo.Dominio
         Pais? ObterPaisPorNome(string nome);
 
         Pais? ObterPaisPorId(Guid id);
+
+        Cupom? ObterCupomPorNome(string nome);
+
+        void Salvar(Cupom cupom);
+
     }
 }

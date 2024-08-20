@@ -1,5 +1,6 @@
 ﻿using System;
 using FluentValidation;
+using CasaDoCodigo.Aplicacao.Cupom;
 
 namespace CasaDoCodigo.Aplicacao.Categoria
 {

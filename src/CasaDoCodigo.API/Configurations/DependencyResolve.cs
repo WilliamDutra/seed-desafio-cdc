@@ -4,7 +4,9 @@ using CasaDoCodigo.Aplicacao.Pais;
 using CasaDoCodigo.Aplicacao.Livro;
 using CasaDoCodigo.Aplicacao.Autor;
 using CasaDoCodigo.Aplicacao.Estado;
+using CasaDoCodigo.Aplicacao.Compra;
 using CasaDoCodigo.Aplicacao.Categoria;
+using CasaDoCodigo.Aplicacao.Cupom;
 
 namespace CasaDoCodigo.API.Configurations
 {
@@ -17,6 +19,8 @@ namespace CasaDoCodigo.API.Configurations
             services.AddScoped<CriarLivroHandler>();
             services.AddScoped<CriarPaisHandler>();
             services.AddScoped<CriarEstadoHandler>();
+            services.AddScoped<CriarCompraHandler>();
+            services.AddScoped<CriarCupomHandler>();
             services.AddScoped<ObterTodosOsLivrosHandler>();
             services.AddScoped<ObterLivroPorIdHandler>();
             return services;
