@@ -33,5 +33,7 @@ namespace CasaDoCodigo.Dominio
 
         void Salvar(Cupom cupom);
 
+        void Salvar(Compra compra);
+
     }
 }
