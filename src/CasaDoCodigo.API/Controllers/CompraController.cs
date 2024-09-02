@@ -11,9 +11,12 @@ namespace CasaDoCodigo.API.Controllers
 
         private CriarCompraHandler _criarPagamentoHandler;
 
-        public CompraController(CriarCompraHandler criarPagamentoHandler)
+        private ObterCompraHandler _obterCompraHandler;
+
+        public CompraController(CriarCompraHandler criarPagamentoHandler, ObterCompraHandler obterCompraHandler)
         {
             _criarPagamentoHandler = criarPagamentoHandler;
+            _obterCompraHandler = obterCompraHandler;
         }
 
         [HttpPost]
@@ -22,6 +25,15 @@ namespace CasaDoCodigo.API.Controllers
             var resultado = _criarPagamentoHandler.Handle(command);
             if (!resultado.Sucesso)
                 return BadRequest(resultado);
+            return Ok(resultado);
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult ObterCompraPorId(Guid id)
+        {
+            var obterCompraCommand = new ObterCompraCommand { Id = id };
+            var resultado = _obterCompraHandler.Handle(obterCompraCommand);
             return Ok(resultado);
         }
 

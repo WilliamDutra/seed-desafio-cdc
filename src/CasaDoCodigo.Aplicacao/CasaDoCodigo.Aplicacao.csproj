@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CasaDoCodigo.Data\CasaDoCodigo.Data.csproj" />
     <ProjectReference Include="..\CasaDoCodigo.Dominio\CasaDoCodigo.Dominio.csproj" />
   </ItemGroup>
 

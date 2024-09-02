@@ -23,6 +23,7 @@ namespace CasaDoCodigo.API.Configurations
             services.AddScoped<CriarCupomHandler>();
             services.AddScoped<ObterTodosOsLivrosHandler>();
             services.AddScoped<ObterLivroPorIdHandler>();
+            services.AddScoped<ObterCompraHandler>();
             return services;
         }
 
